@@ -1,0 +1,30 @@
+plugins {
+    id 'java'
+    id'application'
+    id'com.github.johnrengelman.shadow' version '5.2.0'
+}
+
+mainClassName = 'io.github.andersonstv.Bot'
+
+group 'io.github.andersonstv'
+version '1.0'
+def jdaVersion = '4.2.0_168'
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+    implementation ("net.dv8tion:JDA:4.2.0_168")
+    implementation 'com.google.api-client:google-api-client:1.30.4'
+    implementation 'com.google.oauth-client:google-oauth-client-jetty:1.30.6'
+    implementation 'com.google.apis:google-api-services-sheets:v4-rev581-1.25.0'
+    compile 'io.github.cdimascio:dotenv-java:2.2.0'
+    implementation group: 'com.bernardomg.tabletop', name: 'dice', version: '2.0.4'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+    testImplementation group: 'junit', name: 'junit', version: '4.12'
+}
+
+compileJava.options.encoding = 'UTF-8'
