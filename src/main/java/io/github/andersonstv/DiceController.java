@@ -9,18 +9,14 @@ public class DiceController {
         int diceAmount;
         int diceSides;
         String[] expression = input.split("d");
-
-        switch (expression.length){
-            case 2:
-                diceAmount = 1;
-                diceSides = Integer.parseInt(expression[1]);
-                break;
-            case 3:
-                diceAmount = Integer.parseInt(expression[0]);
-                diceSides = Integer.parseInt(expression[1]);
-                break;
-            default:
-                return "**Invalid Input:** Dice Expression does not match XdY format.";
+        if (expression.length != 2){
+            return "**Invalid Input:** Dice Expression does not match XdY format.";
+        } else if( expression[0].equals("")){
+            diceAmount = 1;
+            diceSides = Integer.parseInt(expression[1]);
+        } else{
+            diceAmount = Integer.parseInt(expression[0]);
+            diceSides = Integer.parseInt(expression[1]);
         }
 
         int sum = 0;
