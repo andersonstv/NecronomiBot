@@ -9,14 +9,20 @@ public class DiceController {
         int diceAmount;
         int diceSides;
         String[] expression = input.split("d");
+        String regex = "^[0-9]*[1-9][0-9]*$";
         if (expression.length != 2){
             return "**Invalid Input:** Dice Expression does not match XdY format.";
-        } else if( expression[0].equals("")){
+        }
+        String firstTerm = expression[0];
+        String secondTerm = expression[1];
+        if( firstTerm.equals("") && secondTerm.matches(regex)){
             diceAmount = 1;
             diceSides = Integer.parseInt(expression[1]);
-        } else{
+        } else if (firstTerm.matches(regex) && secondTerm.matches(regex)){
             diceAmount = Integer.parseInt(expression[0]);
             diceSides = Integer.parseInt(expression[1]);
+        } else {
+            return "**Invalid Input:** Dice Expression does not match XdY format.";
         }
 
         int sum = 0;
@@ -25,7 +31,10 @@ public class DiceController {
             sum += rollSum[i];
         }
         result = "**Result:** " + Arrays.toString(rollSum) + System.lineSeparator() + "**Total:** " + sum;
-
+        if (result.length() > 2000){
+            Integer[] reducedRolls = Arrays.copyOf(rollSum, 20);
+            result = "**Result:** " + Arrays.toString(reducedRolls) + "..." + System.lineSeparator() + "**Total:** " + sum;
+        }
         return result;
     }
     public Integer[] roll(int quant, int sides){

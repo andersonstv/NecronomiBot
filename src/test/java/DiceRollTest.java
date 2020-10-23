@@ -24,9 +24,14 @@ public class DiceRollTest {
         System.out.println(Arrays.toString(result));
     }
     @Test
-    public void testDiceRollInvalid(){
-      //  String result = diceController.rollExpression("");
-      //  Assert.assertEquals("**Invalid Input:** Dice Expression does not match XdY format.", result);
+    public void testDiceRollEmpty(){
+        String result = diceController.rollExpression("");
+        Assert.assertEquals("**Invalid Input:** Dice Expression does not match XdY format.", result);
+    }
+    @Test
+    public void testRollExpressionInvalid(){
+        String result = diceController.rollExpression("adb");
+        Assert.assertEquals("**Invalid Input:** Dice Expression does not match XdY format.", result);
     }
     @Test
     public void testDiceRollValid(){
@@ -36,5 +41,12 @@ public class DiceRollTest {
         System.out.println(result);
         result = diceController.rollExpression("d12");
         System.out.println(result);
+        Assert.assertTrue(Math.floor(Math.log(10) + 1) == Math.ceil(Math.log(10)));
+        try{
+            result = diceController.rollExpression("551d20");
+            System.out.println(result);
+        } catch (Exception e){
+            System.out.println(e.toString());
+        }
     }
 }
