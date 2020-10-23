@@ -7,9 +7,6 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
-import java.util.Random;
-
 public class MessageListener extends ListenerAdapter {
     public DiceController diceController;
 
@@ -39,20 +36,6 @@ public class MessageListener extends ListenerAdapter {
             } catch (Exception e){
                 channel.sendMessage("ERROR").queue();
             }
-        }
-    }
-
-    @Override
-    public void onGuildJoin(@NotNull GuildJoinEvent event) {
-        MessageChannel channel = event.getGuild().getSystemChannel();
-        String sep = System.lineSeparator();
-        String introMessage = "*That is not dead which can eternal lie." + sep +
-                "And with strange aeons even death may die.*" + sep +
-                "Hello, I'm NecronomiBot, a bot made to help running Call of Cthulhu (and other RPGs) " +
-                "on Discord. You can check out the source code at: " +
-                "https://github.com/andersonstv/NecronomiBot";
-        if (channel != null){
-            channel.sendMessage(introMessage).queue();
         }
     }
 
