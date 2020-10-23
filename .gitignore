@@ -1,2 +1,3 @@
 /build/*
 /.env
+/src/main/resources/logback.xml
