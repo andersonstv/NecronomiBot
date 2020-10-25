@@ -1,4 +1,4 @@
-package io.github.andersonstv;
+package io.github.andersonstv.character;
 
 import java.util.HashMap;
 import java.util.Map;

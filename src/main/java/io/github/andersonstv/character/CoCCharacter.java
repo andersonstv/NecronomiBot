@@ -1,6 +1,6 @@
-package io.github.andersonstv;
+package io.github.andersonstv.character;
 
-public class CoCCharacter extends GenericCharacter{
+public class CoCCharacter extends GenericCharacter {
 
     public CoCCharacter(String charName, String userID){
         super(charName, userID);

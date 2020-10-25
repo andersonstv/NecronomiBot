@@ -1,4 +1,4 @@
-import io.github.andersonstv.MessageListener;
+import io.github.andersonstv.listener.MessageListener;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

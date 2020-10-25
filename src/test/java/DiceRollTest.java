@@ -1,4 +1,4 @@
-import io.github.andersonstv.DiceController;
+import io.github.andersonstv.dice.DiceController;
 import org.junit.Before;
 import org.junit.Test;
 

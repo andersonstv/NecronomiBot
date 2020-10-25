@@ -1,4 +1,6 @@
-package io.github.andersonstv;
+package io.github.andersonstv.character;
+
+import io.github.andersonstv.character.GenericCharacter;
 
 public class WoDCharacter extends GenericCharacter {
 

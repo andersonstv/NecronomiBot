@@ -1,4 +1,4 @@
-package io.github.andersonstv;
+package io.github.andersonstv.dice;
 
 import com.bernardomg.tabletop.dice.DefaultDice;
 import com.bernardomg.tabletop.dice.Dice;

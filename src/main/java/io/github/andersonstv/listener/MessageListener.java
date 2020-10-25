@@ -1,5 +1,6 @@
-package io.github.andersonstv;
+package io.github.andersonstv.listener;
 
+import io.github.andersonstv.dice.DiceController;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -28,7 +29,7 @@ public class MessageListener extends ListenerAdapter {
                 case "$ping" -> "Pong!";
                 case "$roll" -> respondDiceRoll(messageContent, "simple");
                 case "$wod" -> respondDiceRoll(messageContent, "wod");
-                case "$testCoC" -> respondDiceRoll(messageContent, "coc");
+                case "$coc" -> respondDiceRoll(messageContent, "coc");
                 default -> "Command not recognized";
             };
             channel.sendMessage(response).queue();
@@ -43,12 +44,18 @@ public class MessageListener extends ListenerAdapter {
                 result = diceController.simpleRoll(input.replace("$roll", ""));
                 break;
             case "wod":
-                if (inputArray.length == 3 && inputArray[1].matches(integerRegex) && inputArray[2].matches(integerRegex)){
+                if (inputArray.length >= 2 && inputArray[1].matches(integerRegex)){
                     int quantity = Integer.parseInt(inputArray[1]);
-                    int difficulty = Integer.parseInt(inputArray[2]);
+                    int difficulty;
+                    if (inputArray.length == 3 && inputArray[2].matches(integerRegex)){
+                        difficulty = Integer.parseInt(inputArray[2]);
+                    } else{
+                        difficulty = 8;
+                    }
                     result = diceController.nwodRoll(quantity, difficulty);
                 } else {
-                    result = "Invalid Input";
+                    result = "Invalid Input: Try $wod <number of dice> <success difficulty>." +
+                            "Ex: $wod 6 8";
                 }
                 break;
             case "coc":
@@ -56,7 +63,8 @@ public class MessageListener extends ListenerAdapter {
                     int challenge = Integer.parseInt(inputArray[1]);
                     result = diceController.cocRoll(challenge);
                 } else {
-                    result = "Invalid Input";
+                    result = "Invalid Input: Try $coc <skill level>." +
+                            "Ex: $cod 45 ";
                 }
         }
         return result;

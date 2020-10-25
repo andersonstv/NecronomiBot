@@ -1,4 +1,4 @@
-package io.github.andersonstv;
+package io.github.andersonstv.listener;
 
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
