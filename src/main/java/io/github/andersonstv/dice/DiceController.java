@@ -1,3 +1,21 @@
+/*
+ *     NecronomiBot. A Discord Bot for use with RPGs (RolePlaying Games)
+ *     Copyright (C) 2020  Anderson dos Santos Silva
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package io.github.andersonstv.dice;
 
 
@@ -58,10 +76,10 @@ public class DiceController {
         String result;
         String[] inputArray = messageContent.split(" ");
 
-        if (inputArray.length >= 2 && inputArray[1].matches(Util.integerRegex)){
+        if (inputArray.length >= 2 && Util.isInteger(inputArray[1])){
             int quantity = Integer.parseInt(inputArray[1]);
             int difficulty;
-            if (inputArray.length == 3 && inputArray[2].matches(Util.integerRegex)){
+            if (inputArray.length == 3 && Util.isInteger(inputArray[2])){
                 difficulty = Integer.parseInt(inputArray[2]);
             } else{
                 difficulty = 8;
@@ -104,7 +122,7 @@ public class DiceController {
         String result;
         String[] inputArray = messageContent.split(" ");
 
-        if (inputArray.length == 2 && inputArray[1].matches(Util.integerRegex)){
+        if (inputArray.length == 2 && Util.isInteger(inputArray[1])){
             int challenge = Integer.parseInt(inputArray[1]);
             result = cocRoll(challenge);
         } else {
@@ -119,6 +137,7 @@ public class DiceController {
         int fumble = challenge < 50 ? 96 : 100;
         StringBuilder response = new StringBuilder("**Results:** ");
         response.append(result.getAllRolls()).append(Util.sep);
+
         if(total <= challenge){
             if( total == 1){
                 response.append("Critical");
