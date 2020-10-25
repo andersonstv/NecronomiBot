@@ -27,19 +27,24 @@ public class DiceController {
         Iterable<RollResult> results = parseAndRoll(input);
 
         StringBuilder response = new StringBuilder("**Result:** ");
+        response.append(printAllRolls(results));
 
-        for (RollResult result : results) {
-            Dice die = result.getDice();
-            response.append(die.getQuantity()).append("d").append(die.getSides());
-            response.append(" ").append(result.getAllRolls());
-            if (results.iterator().hasNext()){
-                response.append(" ");
-            }
-        }
         if (response.length() >= 2000){
             response = new StringBuilder("Error: Result surpasses Discord character limit");
         }
         return response.toString();
+    }
+    private String printAllRolls(Iterable<RollResult> results){
+        StringBuilder allRolls = new StringBuilder();
+        for (RollResult result : results) {
+            Dice die = result.getDice();
+            allRolls.append(die.getQuantity()).append("d").append(die.getSides());
+            allRolls.append(" ").append(result.getAllRolls());
+            if (results.iterator().hasNext()){
+                allRolls.append(" ");
+            }
+        }
+        return allRolls.toString();
     }
     public String wodRoll(String input){
         int countSuccess = 0;
@@ -57,6 +62,33 @@ public class DiceController {
             Iterable<Integer> allRolls = result.getAllRolls();
             for (Integer roll : allRolls) {
                 if (roll >= 8){
+                    countSuccess += 1;
+                } else if( roll <= 1){
+                    countFail += 1;
+                }
+            }
+        }
+        response.append(sep).append("**Total Successes:** ").append(countSuccess - countFail);
+        response.append(sep).append("**Successes:** ").append(countSuccess);
+        response.append(sep).append("**Failures:** ").append(countFail);
+        return response.toString();
+    }
+    public String nwodRoll(int quantity, int difficulty){
+        int countSuccess = 0;
+        int countFail = 0;
+        StringBuilder response = new StringBuilder("**Result:** ");
+        Iterable<RollResult> results = parseAndRoll(quantity + "d");
+
+        for (RollResult result : results) {
+            Dice die = result.getDice();
+            response.append(die.getQuantity()).append("d").append(die.getSides());
+            response.append(" ").append(result.getAllRolls());
+            if (results.iterator().hasNext()){
+                response.append(" ");
+            }
+            Iterable<Integer> allRolls = result.getAllRolls();
+            for (Integer roll : allRolls) {
+                if (roll >= difficulty){
                     countSuccess += 1;
                 } else if( roll <= 1){
                     countFail += 1;
