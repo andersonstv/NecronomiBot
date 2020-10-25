@@ -74,19 +74,22 @@ public class DiceController {
     
     public String wodExpression(String messageContent){
         String result;
+        int quantity;
+        int difficulty;
         String[] inputArray = messageContent.split(" ");
 
-        if (inputArray.length >= 2 && Util.isInteger(inputArray[1])){
-            int quantity = Integer.parseInt(inputArray[1]);
-            int difficulty;
-            if (inputArray.length == 3 && Util.isInteger(inputArray[2])){
-                difficulty = Integer.parseInt(inputArray[2]);
-            } else{
-                difficulty = 8;
+        switch (inputArray.length) {
+            case 3 -> {
+                quantity = Util.isInteger(inputArray[1]) ? Integer.parseInt(inputArray[1]) : 1;
+                difficulty = Util.isInteger(inputArray[2]) ? Integer.parseInt(inputArray[2]) : 8;
+                result = wodRoll(quantity, difficulty);
             }
-            result = wodRoll(quantity, difficulty);
-        } else {
-            result = "Invalid Input: Try $wod <number of dice> <success difficulty>." +
+            case 2 -> {
+                quantity = Util.isInteger(inputArray[1]) ? Integer.parseInt(inputArray[1]) : 1;
+                result = wodRoll(quantity, 8);
+            }
+            case 1 -> result = wodRoll(1, 8);
+            default -> result = "Invalid Input: Try $wod <number of dice> <success difficulty>." +
                     "Ex: $wod 6 8";
         }
         return result;
