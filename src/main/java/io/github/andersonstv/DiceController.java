@@ -73,7 +73,7 @@ public class DiceController {
         int total = result.getTotalRoll();
         int fumble = challenge < 50 ? 96 : 100;
         StringBuilder response = new StringBuilder("**Results:** ");
-        response.append(sep).append(result.getAllRolls()).append(sep);
+        response.append(result.getAllRolls()).append(sep);
         if(total <= challenge){
             if( total == 1){
                 response.append("Critical");
