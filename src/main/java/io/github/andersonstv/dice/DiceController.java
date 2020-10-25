@@ -1,38 +1,27 @@
 package io.github.andersonstv.dice;
 
-import com.bernardomg.tabletop.dice.DefaultDice;
+
 import com.bernardomg.tabletop.dice.Dice;
 import com.bernardomg.tabletop.dice.history.RollHistory;
 import com.bernardomg.tabletop.dice.history.RollResult;
 import com.bernardomg.tabletop.dice.interpreter.DiceRoller;
 import com.bernardomg.tabletop.dice.parser.DefaultDiceParser;
 import com.bernardomg.tabletop.dice.parser.DiceParser;
+import io.github.andersonstv.Util;
 
 public class DiceController {
     final private DiceParser parser;
     final private DiceRoller roller;
-    final public String sep;
+
 
     public DiceController() {
         parser = new DefaultDiceParser();
         roller = new DiceRoller();
-        sep = System.lineSeparator();
     }
 
     public Iterable<RollResult> parseAndRoll(String expression){
         RollHistory history = roller.transform(parser.parse(expression));
         return history.getRollResults();
-    }
-    public String simpleRoll(String input){
-        Iterable<RollResult> results = parseAndRoll(input);
-
-        StringBuilder response = new StringBuilder("**Result:** ");
-        response.append(printAllRolls(results));
-
-        if (response.length() >= 2000){
-            response = new StringBuilder("Error: Result surpasses Discord character limit");
-        }
-        return response.toString();
     }
     private String printAllRolls(Iterable<RollResult> results){
         StringBuilder allRolls = new StringBuilder();
@@ -47,7 +36,44 @@ public class DiceController {
         return allRolls.toString();
     }
 
-    public String nwodRoll(int quantity, int difficulty){
+    public String simpleExpression(String messageContent){
+        String input = messageContent.replace(" ", "");
+        String result;
+        result = simpleRoll(input.replace("$roll", ""));
+        return result;
+    }
+    public String simpleRoll(String expression){
+        Iterable<RollResult> results = parseAndRoll(expression);
+
+        StringBuilder response = new StringBuilder("**Result:** ");
+        response.append(printAllRolls(results));
+
+        if (response.length() >= 2000){
+            response = new StringBuilder("Error: Result surpasses Discord character limit");
+        }
+        return response.toString();
+    }
+    
+    public String wodExpression(String messageContent){
+        String result;
+        String[] inputArray = messageContent.split(" ");
+
+        if (inputArray.length >= 2 && inputArray[1].matches(Util.integerRegex)){
+            int quantity = Integer.parseInt(inputArray[1]);
+            int difficulty;
+            if (inputArray.length == 3 && inputArray[2].matches(Util.integerRegex)){
+                difficulty = Integer.parseInt(inputArray[2]);
+            } else{
+                difficulty = 8;
+            }
+            result = wodRoll(quantity, difficulty);
+        } else {
+            result = "Invalid Input: Try $wod <number of dice> <success difficulty>." +
+                    "Ex: $wod 6 8";
+        }
+        return result;
+    }
+    public String wodRoll(int quantity, int difficulty){
         int countSuccess = 0;
         int countFail = 0;
         StringBuilder response = new StringBuilder("**Result:** ");
@@ -69,17 +95,30 @@ public class DiceController {
                 }
             }
         }
-        response.append(sep).append("**Total Successes:** ").append(countSuccess - countFail);
-        response.append(sep).append("**Successes:** ").append(countSuccess);
-        response.append(sep).append("**Failures:** ").append(countFail);
+        response.append(Util.sep).append("**Total Successes:** ").append(countSuccess - countFail);
+        response.append(Util.sep).append("**Successes:** ").append(countSuccess);
+        response.append(Util.sep).append("**Failures:** ").append(countFail);
         return response.toString();
+    }
+    public String cocExpression(String messageContent){
+        String result;
+        String[] inputArray = messageContent.split(" ");
+
+        if (inputArray.length == 2 && inputArray[1].matches(Util.integerRegex)){
+            int challenge = Integer.parseInt(inputArray[1]);
+            result = cocRoll(challenge);
+        } else {
+            result = "Invalid Input: Try $coc <skill level>." +
+                    "Ex: $cod 45 ";
+        }
+        return result;
     }
     public String cocRoll(int challenge){
         RollResult result = parseAndRoll("1d100").iterator().next();
         int total = result.getTotalRoll();
         int fumble = challenge < 50 ? 96 : 100;
         StringBuilder response = new StringBuilder("**Results:** ");
-        response.append(result.getAllRolls()).append(sep);
+        response.append(result.getAllRolls()).append(Util.sep);
         if(total <= challenge){
             if( total == 1){
                 response.append("Critical");
