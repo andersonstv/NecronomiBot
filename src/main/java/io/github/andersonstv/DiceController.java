@@ -46,33 +46,7 @@ public class DiceController {
         }
         return allRolls.toString();
     }
-    public String wodRoll(String input){
-        int countSuccess = 0;
-        int countFail = 0;
-        StringBuilder response = new StringBuilder("**Result:** ");
-        Iterable<RollResult> results = parseAndRoll(input);
 
-        for (RollResult result : results) {
-            Dice die = result.getDice();
-            response.append(die.getQuantity()).append("d").append(die.getSides());
-            response.append(" ").append(result.getAllRolls());
-            if (results.iterator().hasNext()){
-                response.append(" ");
-            }
-            Iterable<Integer> allRolls = result.getAllRolls();
-            for (Integer roll : allRolls) {
-                if (roll >= 8){
-                    countSuccess += 1;
-                } else if( roll <= 1){
-                    countFail += 1;
-                }
-            }
-        }
-        response.append(sep).append("**Total Successes:** ").append(countSuccess - countFail);
-        response.append(sep).append("**Successes:** ").append(countSuccess);
-        response.append(sep).append("**Failures:** ").append(countFail);
-        return response.toString();
-    }
     public String nwodRoll(int quantity, int difficulty){
         int countSuccess = 0;
         int countFail = 0;
