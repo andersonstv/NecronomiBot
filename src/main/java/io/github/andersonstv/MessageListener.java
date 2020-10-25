@@ -43,8 +43,13 @@ public class MessageListener extends ListenerAdapter {
                 result = diceController.simpleRoll(input.replace("$roll", ""));
                 break;
             case "wod":
-                //if (inputArray.length == 3 && inputArray[1].matches(integerRegex))
-                result = diceController.wodRoll(input.replace("$wod", ""));
+                if (inputArray.length == 3 && inputArray[1].matches(integerRegex) && inputArray[2].matches(integerRegex)){
+                    int quantity = Integer.parseInt(inputArray[1]);
+                    int difficulty = Integer.parseInt(inputArray[2]);
+                    result = diceController.nwodRoll(quantity, difficulty);
+                } else {
+                    result = "Invalid Input";
+                }
                 break;
             case "coc":
                 if (inputArray.length == 2 && inputArray[1].matches(integerRegex)){

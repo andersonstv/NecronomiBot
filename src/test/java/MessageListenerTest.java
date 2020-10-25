@@ -46,7 +46,7 @@ public class MessageListenerTest {
     @Test
     public void testWod(){
         keywords = new String[]{"**Total Successes:** ", "**Successes:** ", "**Failures:** "};
-        String result = messageListener.respondDiceRoll("$wod 3d10", "wod");
+        String result = messageListener.respondDiceRoll("$wod 3 8", "wod");
         Assert.assertTrue(contains(keywords, result));
     }
     @Test

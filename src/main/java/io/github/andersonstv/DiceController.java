@@ -77,7 +77,7 @@ public class DiceController {
         int countSuccess = 0;
         int countFail = 0;
         StringBuilder response = new StringBuilder("**Result:** ");
-        Iterable<RollResult> results = parseAndRoll(quantity + "d");
+        Iterable<RollResult> results = parseAndRoll(quantity + "d10");
 
         for (RollResult result : results) {
             Dice die = result.getDice();
