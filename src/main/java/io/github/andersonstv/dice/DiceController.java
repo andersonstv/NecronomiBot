@@ -27,6 +27,8 @@ import com.bernardomg.tabletop.dice.parser.DefaultDiceParser;
 import com.bernardomg.tabletop.dice.parser.DiceParser;
 import io.github.andersonstv.Util;
 
+import java.util.Iterator;
+
 public class DiceController {
     final private DiceParser parser;
     final private DiceRoller roller;
@@ -127,19 +129,24 @@ public class DiceController {
 
         if (inputArray.length == 2 && Util.isInteger(inputArray[1])){
             int challenge = Integer.parseInt(inputArray[1]);
-            result = cocRoll(challenge);
+            result = cocRoll10s(challenge);
         } else {
             result = "Invalid Input: Try $coc <skill level>." +
                     "Ex: $cod 45 ";
         }
         return result;
     }
-    public String cocRoll(int challenge){
-        RollResult result = parseAndRoll("1d100").iterator().next();
-        int total = result.getTotalRoll();
+
+    public String cocRoll10s(int challenge){
         int fumble = challenge < 50 ? 96 : 100;
+        RollResult result = parseAndRoll("2d10").iterator().next();
+        Iterator<Integer> iter = result.getAllRolls().iterator();
+        int tens = (iter.next() - 1) * 10;
+        int units = iter.next() - 1;
+        int total = tens + units;
+        total = total == 0 ? 100 : total;
         StringBuilder response = new StringBuilder("**Results:** ");
-        response.append(result.getAllRolls()).append(Util.sep);
+        response.append(total).append(" [").append(tens).append("] [").append(units).append("]").append(Util.sep);
 
         if(total <= challenge){
             if( total == 1){

@@ -23,6 +23,7 @@ public class CoCCharacter extends GenericCharacter {
 
     public CoCCharacter(String charName, String userID){
         super(charName, userID);
+        id += "CoC";
         setDefault(charName);
     }
     public void setDefault(String charName) {

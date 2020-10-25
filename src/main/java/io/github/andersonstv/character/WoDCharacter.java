@@ -24,6 +24,7 @@ public class WoDCharacter extends GenericCharacter {
 
     public WoDCharacter(String charName, String userID) {
         super(charName, userID);
+        id += "WoD";
         setDefault(charName);
     }
     public void setDefault(String charName){
