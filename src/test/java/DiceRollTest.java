@@ -1,6 +1,5 @@
-import io.github.andersonstv.dice.DiceUtil;
+import io.github.andersonstv.util.DiceUtil;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 public class DiceRollTest {

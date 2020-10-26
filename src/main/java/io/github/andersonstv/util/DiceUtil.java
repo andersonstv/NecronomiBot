@@ -16,7 +16,7 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package io.github.andersonstv.dice;
+package io.github.andersonstv.util;
 
 
 import com.bernardomg.tabletop.dice.Dice;
@@ -25,7 +25,6 @@ import com.bernardomg.tabletop.dice.history.RollResult;
 import com.bernardomg.tabletop.dice.interpreter.DiceRoller;
 import com.bernardomg.tabletop.dice.parser.DefaultDiceParser;
 import com.bernardomg.tabletop.dice.parser.DiceParser;
-import io.github.andersonstv.Util;
 
 import java.util.Iterator;
 
@@ -53,9 +52,8 @@ public class DiceUtil {
     }
 
     static public String simple(String messageContent){
-        String input = messageContent.replace(" ", "");
         String result;
-        result = simpleRoll(input.replace("$roll", ""));
+        result = messageContent.replaceAll("\\$roll| ", "");
         return result;
     }
     static public String simpleRoll(String expression){
@@ -78,12 +76,12 @@ public class DiceUtil {
 
         switch (inputArray.length) {
             case 3 -> {
-                quantity = Util.isInteger(inputArray[1]) ? Integer.parseInt(inputArray[1]) : 1;
-                difficulty = Util.isInteger(inputArray[2]) ? Integer.parseInt(inputArray[2]) : 8;
+                quantity = FormatUtil.isInteger(inputArray[1]) ? Integer.parseInt(inputArray[1]) : 1;
+                difficulty = FormatUtil.isInteger(inputArray[2]) ? Integer.parseInt(inputArray[2]) : 8;
                 result = wodRoll(quantity, difficulty);
             }
             case 2 -> {
-                quantity = Util.isInteger(inputArray[1]) ? Integer.parseInt(inputArray[1]) : 1;
+                quantity = FormatUtil.isInteger(inputArray[1]) ? Integer.parseInt(inputArray[1]) : 1;
                 result = wodRoll(quantity, 8);
             }
             case 1 -> result = wodRoll(1, 8);
@@ -114,16 +112,16 @@ public class DiceUtil {
                 }
             }
         }
-        response.append(Util.sep).append("**Total Successes:** ").append(countSuccess - countFail);
-        response.append(Util.sep).append("**Successes:** ").append(countSuccess);
-        response.append(Util.sep).append("**Failures:** ").append(countFail);
+        response.append(FormatUtil.sep).append("**Total Successes:** ").append(countSuccess - countFail);
+        response.append(FormatUtil.sep).append("**Successes:** ").append(countSuccess);
+        response.append(FormatUtil.sep).append("**Failures:** ").append(countFail);
         return response.toString();
     }
     static public String coc(String messageContent){
         String result;
         String[] inputArray = messageContent.split(" ");
 
-        if (inputArray.length == 2 && Util.isInteger(inputArray[1])){
+        if (inputArray.length == 2 && FormatUtil.isInteger(inputArray[1])){
             int challenge = Integer.parseInt(inputArray[1]);
             result = cocRoll10s(challenge);
         } else {
@@ -142,7 +140,7 @@ public class DiceUtil {
         int total = tens + units;
         total = total == 0 ? 100 : total;
         StringBuilder response = new StringBuilder("**Results:** ");
-        response.append(total).append(" [").append(tens).append("] [").append(units).append("]").append(Util.sep);
+        response.append(total).append(" [").append(tens).append("] [").append(units).append("]").append(FormatUtil.sep);
 
         if(total <= challenge){
             if( total == 1){
