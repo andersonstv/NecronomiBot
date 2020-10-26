@@ -38,4 +38,10 @@ public class WodCharacterTest {
         String check = character.skillCheck("Hacking");
         Assert.assertTrue(check.contains("**Total Successes:** "));
     }
+    @Test
+    public void testSkillAttCheck(){
+        character.addSkill("Hacking", 3);
+        String check = character.skillCheck("Hacking", "Intelligence");
+        Assert.assertTrue(check.contains("**Total Successes:** "));
+    }
 }

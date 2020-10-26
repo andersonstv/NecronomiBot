@@ -42,7 +42,7 @@ public class WoDCharacter extends GenericCharacter {
     public String skillCheck(String skillName, String attName){
         if (skills.containsKey(skillName) && attributes.containsKey(attName)){
             int total = skills.get(skillName) + attributes.get(attName);
-            return DiceUtil.wodRoll(skills.get(skillName), 8);
+            return DiceUtil.wodRoll(total, 8);
         } else {
             return "Skill Or Attribute not found.";
         }
