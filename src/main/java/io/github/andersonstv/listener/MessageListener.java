@@ -19,18 +19,16 @@
 package io.github.andersonstv.listener;
 
 
-import io.github.andersonstv.dice.DiceController;
+import io.github.andersonstv.dice.DiceUtil;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 
 public class MessageListener extends ListenerAdapter {
-    public DiceController diceController;
 
     public MessageListener() {
         super();
-        this.diceController = new DiceController();
     }
 
     @Override
@@ -44,13 +42,18 @@ public class MessageListener extends ListenerAdapter {
         if (messageContent.charAt(0) == '$') {
             response = switch (messageArray[0]) {
                 case "$ping" -> "Pong!";
-                case "$roll" -> diceController.simpleExpression(messageContent);
-                case "$wod" -> diceController.wodExpression(messageContent);
-                case "$coc" -> diceController.cocExpression(messageContent);
+                case "$roll" -> DiceUtil.simple(messageContent);
+                case "$wod" -> DiceUtil.wod(messageContent);
+                case "$coc" -> DiceUtil.coc(messageContent);
+                case "$uwu" -> uwunator(messageContent);
                 default -> "Command not recognized";
             };
             channel.sendMessage(response).queue();
         }
+    }
+    public String uwunator(String messageContent){
+        String response = messageContent.replace("$uwu", "").replaceAll("r|l", "w");
+        return response.replaceAll("n(a|e|i|o|u)", "ny$1");
     }
 
 }

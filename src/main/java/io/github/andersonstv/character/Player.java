@@ -18,10 +18,8 @@
 
 package io.github.andersonstv.character;
 
-import net.dv8tion.jda.api.entities.User;
-
 import java.util.Map;
 
-public class CharacterController {
-    Map<User, Player> playerMap;
+public class Player {
+    Map<String, Character> characterMap;
 }

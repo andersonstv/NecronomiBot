@@ -29,21 +29,17 @@ import io.github.andersonstv.Util;
 
 import java.util.Iterator;
 
-public class DiceController {
-    final private DiceParser parser;
-    final private DiceRoller roller;
+public class DiceUtil {
 
+    static private Iterable<RollResult> parseAndRoll(String expression){
+        DiceParser parser = new DefaultDiceParser();
+        DiceRoller roller = new DiceRoller();
 
-    public DiceController() {
-        parser = new DefaultDiceParser();
-        roller = new DiceRoller();
-    }
-
-    public Iterable<RollResult> parseAndRoll(String expression){
         RollHistory history = roller.transform(parser.parse(expression));
         return history.getRollResults();
     }
-    private String printAllRolls(Iterable<RollResult> results){
+
+    static private String printAllRolls(Iterable<RollResult> results){
         StringBuilder allRolls = new StringBuilder();
         for (RollResult result : results) {
             Dice die = result.getDice();
@@ -56,13 +52,13 @@ public class DiceController {
         return allRolls.toString();
     }
 
-    public String simpleExpression(String messageContent){
+    static public String simple(String messageContent){
         String input = messageContent.replace(" ", "");
         String result;
         result = simpleRoll(input.replace("$roll", ""));
         return result;
     }
-    public String simpleRoll(String expression){
+    static public String simpleRoll(String expression){
         Iterable<RollResult> results = parseAndRoll(expression);
 
         StringBuilder response = new StringBuilder("**Result:** ");
@@ -73,8 +69,8 @@ public class DiceController {
         }
         return response.toString();
     }
-    
-    public String wodExpression(String messageContent){
+
+    static public String wod(String messageContent){
         String result;
         int quantity;
         int difficulty;
@@ -96,7 +92,7 @@ public class DiceController {
         }
         return result;
     }
-    public String wodRoll(int quantity, int difficulty){
+    static public String wodRoll(int quantity, int difficulty){
         int countSuccess = 0;
         int countFail = 0;
         StringBuilder response = new StringBuilder("**Result:** ");
@@ -123,7 +119,7 @@ public class DiceController {
         response.append(Util.sep).append("**Failures:** ").append(countFail);
         return response.toString();
     }
-    public String cocExpression(String messageContent){
+    static public String coc(String messageContent){
         String result;
         String[] inputArray = messageContent.split(" ");
 
@@ -137,7 +133,7 @@ public class DiceController {
         return result;
     }
 
-    public String cocRoll10s(int challenge){
+    static public String cocRoll10s(int challenge){
         int fumble = challenge < 50 ? 96 : 100;
         RollResult result = parseAndRoll("2d10").iterator().next();
         Iterator<Integer> iter = result.getAllRolls().iterator();

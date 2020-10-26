@@ -22,7 +22,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class GenericCharacter {
+public class GenericCharacter implements Character{
     protected String id;
     protected Map<String, Integer> attributes;
     protected Map<String, Integer> skills;
