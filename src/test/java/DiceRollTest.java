@@ -9,31 +9,35 @@ public class DiceRollTest {
     public boolean contains(String[] keys, String result){
         boolean containsKeyword = false;
         for (String keyword : keys) {
-            containsKeyword = result.contains(keyword);
+            if(result.contains(keyword)){
+                containsKeyword = true;
+
+            }
         }
         return containsKeyword;
     }
     @Test
-    public void testSimpleBasic(){
-        keywords = new String[]{"2d12"};
-        String result = DiceUtil.simple("2d12");
+    public void testSimple(){
+        keywords = new String[]{"2d12", "**Result:** "};
+        String result = DiceUtil.simple("$roll 2d12");
+        System.out.println(result);
         Assert.assertTrue(contains(keywords, result));
     }
     @Test
     public void testSimpleWithSum(){
-        keywords = new String[]{"2d6"};
-        String result = DiceUtil.simple("2d6+2");
+        keywords = new String[]{"2d6", "**Result:** "};
+        String result = DiceUtil.simple("$roll 2d6+2");
         Assert.assertTrue(contains(keywords, result));
     }
     @Test
     public void testSimpleMultiroll(){
-        keywords = new String[]{"2d6", "1d6"};
-        String result =  DiceUtil.simple("2d6+1d6");
+        keywords = new String[]{"2d6", "1d6", "**Result:** "};
+        String result =  DiceUtil.simple("$roll 2d6+1d6");
         Assert.assertTrue(contains(keywords, result));
     }
     @Test
     public void testSimpleMultirollWithSum(){
-        keywords = new String[]{"2d6", "3d10"};
+        keywords = new String[]{"2d6", "3d10", "**Result:** "};
         String result = DiceUtil.simple("$roll 2d6+5+3d10");
         Assert.assertTrue(contains(keywords, result));
     }
@@ -44,7 +48,13 @@ public class DiceRollTest {
         Assert.assertTrue(contains(keywords, result));
     }
     @Test
-    public void testCocSuccess(){
+    public void testWodRoll(){
+        keywords = new String[]{"**Total Successes:** ", "**Successes:** ", "**Failures:** "};
+        String result = DiceUtil.wodRoll(3, 8);
+        Assert.assertTrue(contains(keywords, result));
+    }
+    @Test
+    public void testCoc(){
         keywords = new String[]{"**Results:** ","Critical", "Extreme", "Hard", "Regular", "Fumble!", "Failure!", " Success!"};
         String result = DiceUtil.coc("$coc 100");
 
@@ -52,17 +62,30 @@ public class DiceRollTest {
         Assert.assertTrue(contains(keywords, result));
     }
     @Test
-    public void testCoc10sFailure(){
-        keywords = new String[]{"**Results:** ","Critical", "Extreme", "Hard", "Regular", "Fumble!", "Failure!", " Success!"};
+    public void testCocFailure(){
+        keywords = new String[]{"**Results:** ","Critical", "Extreme", "Hard", "Regular", "umble!", "ailure!", " Success!"};
         String result = DiceUtil.cocRoll10s(0);
         System.out.println(result);
-        //Assert.assertTrue(contains(keywords, result));
+        Assert.assertTrue(contains(keywords, result));
     }
     @Test
-    public void testCoc10sSuccess(){
+    public void testCocSuccess(){
         keywords = new String[]{"**Results:** ","Critical", "Extreme", "Hard", "Regular", "Fumble!", "Failure!", " Success!"};
         String result = DiceUtil.cocRoll10s(100);
         System.out.println(result);
-        //Assert.assertTrue(contains(keywords, result));
+        Assert.assertTrue(contains(keywords, result));
+    }
+    @Test
+    public void testCocExtremeSuccess(){
+        keywords = new String[]{"**Results:** ","Critical", "Extreme", "Hard", "Regular", "Fumble!", "Failure!", " Success!"};
+        String result = DiceUtil.cocRoll10s(500);
+        Assert.assertTrue(contains(keywords, result));
+    }
+    @Test
+    public void testHardSuccess(){
+        keywords = new String[]{"**Results:** ","Critical", "Extreme", "Hard", "Regular", "Fumble!", "Failure!", " Success!"};
+        String result = DiceUtil.cocRoll10s(200);
+        System.out.println(result);
+        Assert.assertTrue(contains(keywords, result));
     }
 }

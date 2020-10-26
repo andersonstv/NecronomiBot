@@ -19,15 +19,31 @@
 
 package io.github.andersonstv.character;
 
+import io.github.andersonstv.util.DiceUtil;
+
 public class CoCCharacter extends GenericCharacter {
 
-    public CoCCharacter(String charName, String userID){
-        super(charName, userID);
-        id += "CoC";
+    public CoCCharacter(String charName, String id){
+        super(id+"coc");;
         setDefault(charName);
     }
     public void setDefault(String charName) {
         descriptions.put("name", charName);
-    }
+        attributes.put("STR", 0);
+        attributes.put("DEX", 0);
+        attributes.put("INT", 0);
+        attributes.put("CON", 0);
+        attributes.put("APP", 0);
+        attributes.put("POW", 0);
+        attributes.put("SIZ", 0);
+        attributes.put("EDU", 0);
 
+    }
+    public String skillCheck(String skillName){
+        if (skills.containsKey(skillName)){
+            return DiceUtil.cocRoll10s(skills.get(skillName));
+        } else {
+            return "Skill not found.";
+        }
+    }
 }

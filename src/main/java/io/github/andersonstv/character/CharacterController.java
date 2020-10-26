@@ -20,8 +20,28 @@ package io.github.andersonstv.character;
 
 import net.dv8tion.jda.api.entities.User;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class CharacterController {
-    Map<User, Player> playerMap;
+    Map<String, Player> playerMap;
+
+    public CharacterController() {
+        this.playerMap = new HashMap<>();
+    }
+    public void addPlayer(String userId){
+        if (!playerMap.containsKey(userId)){
+            playerMap.put(userId, new Player(userId));
+        }
+    }
+    public boolean addCharacter(Character newCharacter, String userId){
+        if (playerMap.containsKey(userId)){
+            return playerMap.get(userId).addCharacter(newCharacter);
+        } else{
+            return false;
+        }
+    }
+    public Character removeChar(String userId, String charId){
+        return playerMap.get(userId).removeChar(charId);
+    }
 }

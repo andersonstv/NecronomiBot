@@ -19,4 +19,5 @@
 package io.github.andersonstv.character;
 
 public interface Character {
+    public String getId();
 }

@@ -18,26 +18,33 @@
 
 package io.github.andersonstv.character;
 
-import io.github.andersonstv.character.GenericCharacter;
+
+import io.github.andersonstv.util.DiceUtil;
+import io.github.andersonstv.util.ImportUtil;
 
 public class WoDCharacter extends GenericCharacter {
 
-    public WoDCharacter(String charName, String userID) {
-        super(charName, userID);
-        id += "WoD";
+    public WoDCharacter(String charName, String id) {
+        super(id+"wod");;
         setDefault(charName);
     }
     public void setDefault(String charName){
         descriptions.put("name", charName);
-        attributes.put("Intelligence", 1);
-        attributes.put("Strength", 1);
-        attributes.put("Presence", 1);
-        attributes.put("Wits", 1);
-        attributes.put("Dexterity", 1);
-        attributes.put("Manipulation", 1);
-        attributes.put("Resolve", 1);
-        attributes.put("Stamina", 1);
-        attributes.put("Composure", 1);
+        attributes = ImportUtil.importMapCSV(ImportUtil.filepath + "wodDefaultAttributes.csv");
     }
-
+    public String skillCheck(String skillName){
+        if (skills.containsKey(skillName)){
+            return DiceUtil.wodRoll(skills.get(skillName), 8);
+        } else {
+            return "Skill not found.";
+        }
+    }
+    public String skillCheck(String skillName, String attName){
+        if (skills.containsKey(skillName) && attributes.containsKey(attName)){
+            int total = skills.get(skillName) + attributes.get(attName);
+            return DiceUtil.wodRoll(skills.get(skillName), 8);
+        } else {
+            return "Skill Or Attribute not found.";
+        }
+    }
 }

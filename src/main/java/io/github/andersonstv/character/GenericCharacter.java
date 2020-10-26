@@ -28,12 +28,30 @@ public class GenericCharacter implements Character{
     protected Map<String, Integer> skills;
     protected Map<String, String> descriptions;
 
-    public GenericCharacter(String charName, String userID){
-        id = charName+userID;
+    public GenericCharacter(String id){
+        this.id = id;
         attributes = new HashMap<>();
         skills = new HashMap<>();
         descriptions = new HashMap<>();
     }
+
+    @Override
+    public String getId() {
+        return id;
+    }
+
+    public Map<String, Integer> getAttributes() {
+        return attributes;
+    }
+
+    public Map<String, Integer> getSkills() {
+        return skills;
+    }
+
+    public Map<String, String> getDescriptions() {
+        return descriptions;
+    }
+
     public void addSkill(String skillName, int value){
         skills.put(skillName, value);
     }

@@ -18,8 +18,30 @@
 
 package io.github.andersonstv.character;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class Player {
     Map<String, Character> characterMap;
+    String userID;
+
+    public Player(String userID) {
+        characterMap = new LinkedHashMap<>();
+    }
+
+    public Map<String, Character> getCharacterMap() {
+        return characterMap;
+    }
+    public boolean addCharacter(Character newCharacter){
+        if(characterMap.containsKey(newCharacter.getId())){
+            characterMap.put(newCharacter.getId(), newCharacter);
+            return true;
+        } else {
+            return false;
+        }
+    }
+    public Character removeChar(String charId){
+        return characterMap.remove(charId);
+    }
+
 }

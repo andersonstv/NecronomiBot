@@ -16,18 +16,26 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package io.github.andersonstv.util;
+import io.github.andersonstv.character.WoDCharacter;
+import io.github.andersonstv.util.DiceUtil;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 
-import java.io.*;
-import java.util.HashMap;
-import java.util.Map;
-
-public class FormatUtil {
-    final public static String integerRegex = "^\\d+$";
-    final public static String sep = System.lineSeparator();
-
-    public static boolean isInteger(String str){
-        return str.matches(integerRegex);
+public class WodCharacterTest {
+    public WoDCharacter character;
+    @Before
+    public void setUp(){
+        character = new WoDCharacter("Test", "test#0000Testwod");
     }
-
+    @Test
+    public void testDefault(){
+        Assert.assertTrue(character.getAttribute("Intelligence") == 1);
+    }
+    @Test
+    public void testSkillCheck(){
+        character.addSkill("Hacking", 3);
+        String check = character.skillCheck("Hacking");
+        Assert.assertTrue(check.contains("**Total Successes:** "));
+    }
 }
