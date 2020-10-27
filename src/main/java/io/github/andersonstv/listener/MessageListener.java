@@ -79,7 +79,11 @@ public class MessageListener extends ListenerAdapter {
                     }
                     break;
                 case "coc":
-                    response = "Not implemented yet.";
+                    if (charController.createCocCharacter(input[2], userId)){
+                        response = "Character created successfully.";
+                    } else {
+                        response = "That Character already exists.";
+                    }
                     break;
             }
         } else {

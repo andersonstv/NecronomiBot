@@ -50,6 +50,15 @@ public class Player {
             return false;
         }
     }
+    public boolean createCocCharacter(String charName){
+        Character newCharacter = new CoCCharacter(charName);
+        if(!characterMap.containsKey(newCharacter.getId())){
+            characterMap.put(newCharacter.getId(), newCharacter);
+            return true;
+        } else {
+            return false;
+        }
+    }
     public Character removeChar(String charId){
         return characterMap.remove(charId);
     }

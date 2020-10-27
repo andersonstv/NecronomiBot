@@ -36,6 +36,14 @@ public class CharacterController {
             return playerMap.get(userId).createWodCharacter(charName);
         }
     }
+    public boolean createCocCharacter(String charName, String userId){
+        if (playerMap.containsKey(userId)){
+            return playerMap.get(userId).createCocCharacter(charName);
+        } else{
+            playerMap.put(userId, new Player(userId));
+            return playerMap.get(userId).createCocCharacter(charName);
+        }
+    }
     public String removeChar(String userId, String charId){
         Character deleted = playerMap.get(userId).removeChar(charId);
         String response;
