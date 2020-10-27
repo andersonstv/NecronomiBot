@@ -23,12 +23,11 @@ import io.github.andersonstv.util.DiceUtil;
 
 public class CoCCharacter extends GenericCharacter {
 
-    public CoCCharacter(String charName, String id){
-        super(id+"coc");;
-        setDefault(charName);
+    public CoCCharacter(String charName){
+        super(charName);;
+        setDefault();
     }
-    public void setDefault(String charName) {
-        descriptions.put("name", charName);
+    public void setDefault() {
         attributes.put("STR", 0);
         attributes.put("DEX", 0);
         attributes.put("INT", 0);

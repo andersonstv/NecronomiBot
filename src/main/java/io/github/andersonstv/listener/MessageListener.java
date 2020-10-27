@@ -19,24 +19,32 @@
 package io.github.andersonstv.listener;
 
 
+import io.github.andersonstv.character.CharacterController;
 import io.github.andersonstv.util.DiceUtil;
+import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 
 public class MessageListener extends ListenerAdapter {
+    CharacterController charController;
 
     public MessageListener() {
         super();
+        charController = new CharacterController();
     }
 
     @Override
     public void onMessageReceived(@NotNull MessageReceivedEvent event) {
         if (event.getAuthor().isBot()) return;
-
-        String messageContent = event.getMessage().getContentRaw();
+        Message message = event.getMessage();
+        String messageContent = message.getContentRaw();
         MessageChannel channel = event.getChannel();
+        String authorId = message.getAuthor().getAsTag();
+        System.out.println(authorId);
+
         String[] messageArray = messageContent.split(" ");
         String response;
         if (messageContent.charAt(0) == '$') {
@@ -46,6 +54,10 @@ public class MessageListener extends ListenerAdapter {
                 case "$wod" -> DiceUtil.wod(messageContent);
                 case "$coc" -> DiceUtil.coc(messageContent);
                 case "$uwu" -> uwunator(messageContent);
+                case "$create" -> createCharacter(messageContent, authorId);
+                case "$delete" -> deleteCharacter(messageContent, authorId);
+                case "$chars" -> printCharacters(messageContent, authorId);
+                case "$char" -> currentChar(messageContent, authorId);
                 default -> "Command not recognized";
             };
             channel.sendMessage(response).queue();
@@ -54,6 +66,52 @@ public class MessageListener extends ListenerAdapter {
     public String uwunator(String messageContent){
         String response = messageContent.replace("$uwu", "").replaceAll("r|l", "w");
         return response.replaceAll("n(a|e|i|o|u)", "ny$1");
+    }
+    public String createCharacter(String messageContent, String userId){
+        String[] input = messageContent.split(" ");
+        String response = "";
+        if (input.length == 3){
+            switch (input[1].toLowerCase()){
+                case "wod":
+                    if (charController.createWodCharacter(input[2], userId)){
+                        response = "Character created successfully.";
+                    } else {
+                        response = "That Character already exists.";
+                    }
+                    break;
+                case "coc":
+                    response = "Not implemented yet.";
+                    break;
+            }
+        } else {
+            response = "Invalid Input: Try $create <wod/coc> <name>";
+        }
+        return response;
+    }
+    public String deleteCharacter(String messageContent, String userId){
+        String[] input = messageContent.split(" ");
+        String response;
+        if (input.length == 2){
+            response = charController.removeChar(userId, input[1]);
+        } else {
+            response = "Invalid Input: Try delete <name>";
+        }
+        return response;
+    }
+    public String printCharacters(String messageContent, String userId){
+        String[] input = messageContent.split(" ");
+        String response;
+        return charController.printChars(userId);
+    }
+    public String currentChar(String messageContent, String userID){
+        String[] input = messageContent.split(" ");
+        String response;
+        if (input.length == 2){
+            response = charController.setCurrent(userID, input[1]);
+        } else {
+            response = charController.getCurrent(userID);
+        }
+        return response;
     }
 
 }

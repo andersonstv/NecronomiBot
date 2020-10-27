@@ -25,12 +25,12 @@ import io.github.andersonstv.util.ImportUtil;
 public class WoDCharacter extends GenericCharacter {
     private int[] hp;
     private int[] willpower;
-    public WoDCharacter(String charName, String id) {
-        super(id+"wod");;
-        setDefault(charName);
+
+    public WoDCharacter(String charName) {
+        super(charName);
+        setDefault();
     }
-    public void setDefault(String charName){
-        descriptions.put("name", charName);
+    public void setDefault(){
         attributes = ImportUtil.importMapCSV(ImportUtil.filepath + "wodDefaultAttributes.csv");
         skills = ImportUtil.importMapCSV(ImportUtil.filepath + "wodDefaultSkills.csv");
         hp = new int[]{ attributes.get("size") + attributes.get("stamina"),0};
@@ -46,9 +46,16 @@ public class WoDCharacter extends GenericCharacter {
     public String skillCheck(String skillName, String attName){
         if (skills.containsKey(skillName) && attributes.containsKey(attName)){
             int total = skills.get(skillName) + attributes.get(attName);
-            return DiceUtil.wodRoll(total, 8);
+            return DiceUtil.wodRoll(total);
         } else {
             return "Skill Or Attribute not found.";
+        }
+    }
+    public String attributeCheck(String attName){
+        if (attributes.containsKey(attName)){
+            return DiceUtil.wodRoll(attributes.get(attName));
+        } else {
+            return "Attribute not found.";
         }
     }
 }

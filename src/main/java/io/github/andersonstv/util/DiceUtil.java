@@ -81,9 +81,9 @@ public class DiceUtil {
             }
             case 2 -> {
                 quantity = FormatUtil.isInteger(inputArray[1]) ? Integer.parseInt(inputArray[1]) : 1;
-                result = wodRoll(quantity, 8);
+                result = wodRoll(quantity);
             }
-            case 1 -> result = wodRoll(1, 8);
+            case 1 -> result = wodRoll(1);
             default -> result = "Invalid Input: Try $wod <number of dice> <success difficulty>." +
                     "Ex: $wod 6 8";
         }
@@ -115,6 +115,9 @@ public class DiceUtil {
         response.append(FormatUtil.sep).append("**Successes:** ").append(countSuccess);
         response.append(FormatUtil.sep).append("**Failures:** ").append(countFail);
         return response.toString();
+    }
+    static public String wodRoll(int quantity){
+        return wodRoll(quantity, 8);
     }
     static public String coc(String messageContent){
         String result;

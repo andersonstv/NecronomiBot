@@ -18,8 +18,6 @@
 
 package io.github.andersonstv.character;
 
-import net.dv8tion.jda.api.entities.User;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,19 +27,43 @@ public class CharacterController {
     public CharacterController() {
         this.playerMap = new HashMap<>();
     }
-    public void addPlayer(String userId){
-        if (!playerMap.containsKey(userId)){
-            playerMap.put(userId, new Player(userId));
-        }
-    }
-    public boolean addCharacter(Character newCharacter, String userId){
+
+    public boolean createWodCharacter(String charName, String userId){
         if (playerMap.containsKey(userId)){
-            return playerMap.get(userId).addCharacter(newCharacter);
+            return playerMap.get(userId).createWodCharacter(charName);
         } else{
-            return false;
+            playerMap.put(userId, new Player(userId));
+            return playerMap.get(userId).createWodCharacter(charName);
         }
     }
-    public Character removeChar(String userId, String charId){
-        return playerMap.get(userId).removeChar(charId);
+    public String removeChar(String userId, String charId){
+        Character deleted = playerMap.get(userId).removeChar(charId);
+        String response;
+        if (deleted == null){
+            response = "Character not found.";
+        } else {
+            response = "Character Removed";
+        }
+        return response;
+    }
+    public String printChars(String userId){
+        Player player = playerMap.get(userId);
+        return player == null ? "Player has no characters" : player.toString();
+    }
+    public String getCurrent(String userId){
+        if (playerMap.containsKey(userId)){
+            Player player = playerMap.get(userId);
+            return player.getCurrent() == null ? "No active character." : player.getCurrent().getId();
+        }
+        return "Player not found.";
+    }
+    public String setCurrent(String userId, String charName){
+        if (playerMap.containsKey(userId)){
+            Player player = playerMap.get(userId);
+            player.setCurrent(charName);
+            return "Changed active character";
+        } else {
+            return "Player not found";
+        }
     }
 }

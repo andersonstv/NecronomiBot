@@ -18,22 +18,35 @@
 
 package io.github.andersonstv.character;
 
+import io.github.andersonstv.util.FormatUtil;
+
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class Player {
     Map<String, Character> characterMap;
     String userID;
+    Character current;
 
     public Player(String userID) {
         characterMap = new LinkedHashMap<>();
+        this.userID = userID;
+    }
+
+    public Character getCurrent() {
+        return current;
+    }
+
+    public void setCurrent(String charName) {
+        this.current = characterMap.get(charName);
     }
 
     public Map<String, Character> getCharacterMap() {
         return characterMap;
     }
-    public boolean addCharacter(Character newCharacter){
-        if(characterMap.containsKey(newCharacter.getId())){
+    public boolean createWodCharacter(String charName){
+        Character newCharacter = new WoDCharacter(charName);
+        if(!characterMap.containsKey(newCharacter.getId())){
             characterMap.put(newCharacter.getId(), newCharacter);
             return true;
         } else {
@@ -44,4 +57,13 @@ public class Player {
         return characterMap.remove(charId);
     }
 
+    @Override
+    public String toString() {
+        StringBuilder result = new StringBuilder("<@!");
+        result.append(userID).append(">").append(FormatUtil.sep);
+        for (Character c : characterMap.values()) {
+            result.append(c.getId()).append(FormatUtil.sep);
+        }
+        return result.toString();
+    }
 }

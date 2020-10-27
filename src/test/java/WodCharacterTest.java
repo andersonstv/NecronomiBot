@@ -25,20 +25,26 @@ public class WodCharacterTest {
     public WoDCharacter character;
     @Before
     public void setUp(){
-        character = new WoDCharacter("Test", "test#0000Testwod");
+        character = new WoDCharacter("Test");
     }
     @Test
     public void testDefault(){
-        Assert.assertEquals(1, (int) character.getAttribute("Intelligence"));
+        Assert.assertEquals(1, (int) character.getAttribute("intelligence"));
     }
     @Test
     public void testSkillCheck(){
-        String check = character.skillCheck("Medicine");
+        String check = character.skillCheck("medicine");
         Assert.assertTrue(check.contains("**Total Successes:** "));
     }
     @Test
     public void testSkillAttCheck(){
-        String check = character.skillCheck("Medicine", "Intelligence");
+        String check = character.skillCheck("medicine", "intelligence");
+        System.out.println();
+        Assert.assertTrue(check.contains("**Total Successes:** "));
+    }
+    @Test
+    public void testAttributeCheck(){
+        String check = character.attributeCheck("intelligence");
         Assert.assertTrue(check.contains("**Total Successes:** "));
     }
 }
