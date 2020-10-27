@@ -23,7 +23,8 @@ import io.github.andersonstv.util.DiceUtil;
 import io.github.andersonstv.util.ImportUtil;
 
 public class WoDCharacter extends GenericCharacter {
-
+    private int[] hp;
+    private int[] willpower;
     public WoDCharacter(String charName, String id) {
         super(id+"wod");;
         setDefault(charName);
@@ -31,6 +32,9 @@ public class WoDCharacter extends GenericCharacter {
     public void setDefault(String charName){
         descriptions.put("name", charName);
         attributes = ImportUtil.importMapCSV(ImportUtil.filepath + "wodDefaultAttributes.csv");
+        skills = ImportUtil.importMapCSV(ImportUtil.filepath + "wodDefaultSkills.csv");
+        hp = new int[]{ attributes.get("size") + attributes.get("stamina"),0};
+        willpower = new int[]{attributes.get("composure") + attributes.get("resolve"), 0};
     }
     public String skillCheck(String skillName){
         if (skills.containsKey(skillName)){

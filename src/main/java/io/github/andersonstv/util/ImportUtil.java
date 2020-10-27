@@ -38,7 +38,7 @@ public class ImportUtil {
             CSVReader csvReader = new CSVReader(reader);
             String[] row;
             while((row = csvReader.readNext()) != null){
-                atts.put(row[0], Integer.parseInt(row[1]));
+                atts.put(row[0].toLowerCase(), Integer.parseInt(row[1]));
             }
             return atts;
         } catch (FileNotFoundException e){

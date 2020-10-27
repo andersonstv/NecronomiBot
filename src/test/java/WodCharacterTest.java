@@ -17,7 +17,6 @@
  */
 
 import io.github.andersonstv.character.WoDCharacter;
-import io.github.andersonstv.util.DiceUtil;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,18 +29,16 @@ public class WodCharacterTest {
     }
     @Test
     public void testDefault(){
-        Assert.assertTrue(character.getAttribute("Intelligence") == 1);
+        Assert.assertEquals(1, (int) character.getAttribute("Intelligence"));
     }
     @Test
     public void testSkillCheck(){
-        character.addSkill("Hacking", 3);
-        String check = character.skillCheck("Hacking");
+        String check = character.skillCheck("Medicine");
         Assert.assertTrue(check.contains("**Total Successes:** "));
     }
     @Test
     public void testSkillAttCheck(){
-        character.addSkill("Hacking", 3);
-        String check = character.skillCheck("Hacking", "Intelligence");
+        String check = character.skillCheck("Medicine", "Intelligence");
         Assert.assertTrue(check.contains("**Total Successes:** "));
     }
 }
