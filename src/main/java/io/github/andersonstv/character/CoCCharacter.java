@@ -20,22 +20,17 @@
 package io.github.andersonstv.character;
 
 import io.github.andersonstv.util.DiceUtil;
+import io.github.andersonstv.util.ImportUtil;
 
 public class CoCCharacter extends GenericCharacter {
 
     public CoCCharacter(String charName){
-        super(charName);;
+        super(charName);
         setDefault();
     }
     public void setDefault() {
-        attributes.put("STR", 0);
-        attributes.put("DEX", 0);
-        attributes.put("INT", 0);
-        attributes.put("CON", 0);
-        attributes.put("APP", 0);
-        attributes.put("POW", 0);
-        attributes.put("SIZ", 0);
-        attributes.put("EDU", 0);
+        attributes = ImportUtil.importMapCSV(ImportUtil.filepath + "DEFAULT_ATTRIBUTES_CoC.csv");
+        skills = ImportUtil.importMapCSV(ImportUtil.filepath + "DEFAULT_SKILLS_CoC.csv");
 
     }
     public String skillCheck(String skillName){
@@ -43,6 +38,14 @@ public class CoCCharacter extends GenericCharacter {
             return DiceUtil.cocRoll10s(skills.get(skillName));
         } else {
             return "Skill not found.";
+        }
+    }
+
+    public String attributeCheck(String attName){
+        if (attributes.containsKey(attName)){
+            return DiceUtil.cocRoll10s(attributes.get(attName));
+        } else {
+            return "Attribute not found.";
         }
     }
 }

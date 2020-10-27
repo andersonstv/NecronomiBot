@@ -41,9 +41,6 @@ public class Player {
         this.current = characterMap.get(charName);
     }
 
-    public Map<String, Character> getCharacterMap() {
-        return characterMap;
-    }
     public boolean createWodCharacter(String charName){
         Character newCharacter = new WoDCharacter(charName);
         if(!characterMap.containsKey(newCharacter.getId())){
@@ -59,8 +56,8 @@ public class Player {
 
     @Override
     public String toString() {
-        StringBuilder result = new StringBuilder("<@!");
-        result.append(userID).append(">").append(FormatUtil.sep);
+        StringBuilder result = new StringBuilder();
+        result.append(userID).append("Your Characters: ");
         for (Character c : characterMap.values()) {
             result.append(c.getId()).append(FormatUtil.sep);
         }

@@ -31,8 +31,8 @@ public class WoDCharacter extends GenericCharacter {
         setDefault();
     }
     public void setDefault(){
-        attributes = ImportUtil.importMapCSV(ImportUtil.filepath + "wodDefaultAttributes.csv");
-        skills = ImportUtil.importMapCSV(ImportUtil.filepath + "wodDefaultSkills.csv");
+        attributes = ImportUtil.importMapCSV(ImportUtil.filepath + "DEFAULT_ATTRIBUTES_WoD.csv");
+        skills = ImportUtil.importMapCSV(ImportUtil.filepath + "DEFAULT_SKILLS_WoD.csv");
         hp = new int[]{ attributes.get("size") + attributes.get("stamina"),0};
         willpower = new int[]{attributes.get("composure") + attributes.get("resolve"), 0};
     }

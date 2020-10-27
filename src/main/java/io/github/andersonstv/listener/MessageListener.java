@@ -23,7 +23,6 @@ import io.github.andersonstv.character.CharacterController;
 import io.github.andersonstv.util.DiceUtil;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
-import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
@@ -43,7 +42,7 @@ public class MessageListener extends ListenerAdapter {
         String messageContent = message.getContentRaw();
         MessageChannel channel = event.getChannel();
         String authorId = message.getAuthor().getAsTag();
-        System.out.println(authorId);
+
 
         String[] messageArray = messageContent.split(" ");
         String response;
@@ -64,8 +63,8 @@ public class MessageListener extends ListenerAdapter {
         }
     }
     public String uwunator(String messageContent){
-        String response = messageContent.replace("$uwu", "").replaceAll("r|l", "w");
-        return response.replaceAll("n(a|e|i|o|u)", "ny$1");
+        String response = messageContent.replace("$uwu", "").replaceAll("[rl]", "w");
+        return response.replaceAll("n[aeiou]", "ny$1");
     }
     public String createCharacter(String messageContent, String userId){
         String[] input = messageContent.split(" ");
@@ -99,8 +98,6 @@ public class MessageListener extends ListenerAdapter {
         return response;
     }
     public String printCharacters(String messageContent, String userId){
-        String[] input = messageContent.split(" ");
-        String response;
         return charController.printChars(userId);
     }
     public String currentChar(String messageContent, String userID){
