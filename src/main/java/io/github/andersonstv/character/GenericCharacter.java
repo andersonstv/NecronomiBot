@@ -22,7 +22,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class GenericCharacter implements Character{
+public abstract class GenericCharacter implements Character{
     protected String id;
     protected Map<String, Integer> attributes;
     protected Map<String, Integer> skills;
@@ -70,6 +70,8 @@ public class GenericCharacter implements Character{
     public String getDescription(String descriptionName){
         return descriptions.get(descriptionName);
     }
+
+    public abstract String check(String stat);
 
     @Override
     public boolean equals(Object o) {

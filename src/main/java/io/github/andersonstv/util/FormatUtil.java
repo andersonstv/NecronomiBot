@@ -18,9 +18,7 @@
 
 package io.github.andersonstv.util;
 
-import java.io.*;
-import java.util.HashMap;
-import java.util.Map;
+
 
 public class FormatUtil {
     final public static String integerRegex = "^\\d+$";
@@ -29,5 +27,11 @@ public class FormatUtil {
     public static boolean isInteger(String str){
         return str.matches(integerRegex);
     }
-
+    public static String validateDiscordLimit(String response){
+        if (response.length() >= 2000){
+            return "Response exceedds Discord character limit";
+        }else {
+            return response;
+        }
+    }
 }

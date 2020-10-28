@@ -33,19 +33,21 @@ public class CoCCharacter extends GenericCharacter {
         skills = ImportUtil.importMapCSV(ImportUtil.filepath + "DEFAULT_SKILLS_CoC.csv");
 
     }
-    public String skillCheck(String skillName){
-        if (skills.containsKey(skillName)){
-            return DiceUtil.cocRoll10s(skills.get(skillName));
+
+    public String check(String stat){
+        if(this.attributes.containsKey(stat)){
+            return attributeCheck(stat);
+        } else if(skills.containsKey(stat)){
+            return skillCheck(stat);
         } else {
-            return "Skill not found.";
+            return "Skill or Attribute not found.";
         }
+    }
+    public String skillCheck(String skillName){
+        return DiceUtil.cocRoll10s(skills.get(skillName));
     }
 
     public String attributeCheck(String attName){
-        if (attributes.containsKey(attName)){
-            return DiceUtil.cocRoll10s(attributes.get(attName));
-        } else {
-            return "Attribute not found.";
-        }
+        return DiceUtil.cocRoll10s(attributes.get(attName));
     }
 }

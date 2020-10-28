@@ -36,26 +36,42 @@ public class WoDCharacter extends GenericCharacter {
         hp = new int[]{ attributes.get("size") + attributes.get("stamina"),0};
         willpower = new int[]{attributes.get("composure") + attributes.get("resolve"), 0};
     }
-    public String skillCheck(String skillName){
-        if (skills.containsKey(skillName)){
-            return DiceUtil.wodRoll(skills.get(skillName), 8);
+    public String check(String stat){
+        if (attributes.containsKey(stat)){
+            return attributeCheck(stat);
+        } else if(skills.containsKey(stat)){
+            return skillCheck(stat);
         } else {
-            return "Skill not found.";
+            return "Skill or Attribute not found.";
         }
     }
-    public String skillCheck(String skillName, String attName){
-        if (skills.containsKey(skillName) && attributes.containsKey(attName)){
-            int total = skills.get(skillName) + attributes.get(attName);
-            return DiceUtil.wodRoll(total);
-        } else {
-            return "Skill Or Attribute not found.";
+    public String check(String stat, String secondary){
+        int total;
+        if (attributes.containsKey(stat)){
+            if(attributes.containsKey(secondary)){
+                total = attributes.get(stat) + attributes.get(secondary);
+                return DiceUtil.wodRoll(total);
+            } else if(skills.containsKey(secondary)){
+                total = attributes.get(stat) + skills.get(secondary);
+                return DiceUtil.wodRoll(total);
+
+            }
+        } else if(skills.containsKey(stat)){
+            if(attributes.containsKey(secondary)){
+                total = skills.get(stat) + attributes.get(secondary);
+                return DiceUtil.wodRoll(total);
+            } else if(skills.containsKey(secondary)){
+                total = skills.get(stat) + skills.get(secondary);
+                return DiceUtil.wodRoll(total);
+            }
         }
+        return "Skill or Attribute Not found.";
     }
-    public String attributeCheck(String attName){
-        if (attributes.containsKey(attName)){
-            return DiceUtil.wodRoll(attributes.get(attName));
-        } else {
-            return "Attribute not found.";
-        }
+    private String skillCheck(String skillName){
+        return DiceUtil.wodRoll(skills.get(skillName), 8);
+
+    }
+    private String attributeCheck(String attName){
+        return DiceUtil.wodRoll(attributes.get(attName));
     }
 }

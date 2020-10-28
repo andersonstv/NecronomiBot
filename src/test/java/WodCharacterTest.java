@@ -33,7 +33,7 @@ public class WodCharacterTest {
     }
     @Test
     public void testSkillCheck(){
-        String check = character.skillCheck("medicine");
+        String check = character.check("medicine");
         Assert.assertTrue(check.contains("**Total Successes:** "));
     }
     @Test
@@ -44,7 +44,7 @@ public class WodCharacterTest {
     }
     @Test
     public void testAttributeCheck(){
-        String check = character.attributeCheck("intelligence");
+        String check = character.check("intelligence");
         Assert.assertTrue(check.contains("**Total Successes:** "));
     }
 }

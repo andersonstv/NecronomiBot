@@ -21,6 +21,7 @@ package io.github.andersonstv.listener;
 
 import io.github.andersonstv.character.CharacterController;
 import io.github.andersonstv.util.DiceUtil;
+import io.github.andersonstv.util.FormatUtil;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -59,6 +60,7 @@ public class MessageListener extends ListenerAdapter {
                 case "$char" -> currentChar(messageContent, authorId);
                 default -> "Command not recognized";
             };
+            response = FormatUtil.validateDiscordLimit(response);
             channel.sendMessage(response).queue();
         }
     }

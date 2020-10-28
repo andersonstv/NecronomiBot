@@ -53,7 +53,7 @@ public class DiceUtil {
 
     static public String simple(String messageContent){
         String expression = messageContent.replaceAll("\\$roll| ", "");
-        return simpleRoll(expression);
+        return FormatUtil.validateDiscordLimit(simpleRoll(expression));
     }
     static public String simpleRoll(String expression){
         Iterable<RollResult> results = parseAndRoll(expression);
