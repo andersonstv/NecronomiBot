@@ -69,7 +69,6 @@ public class WoDCharacter extends GenericCharacter {
     }
     private String skillCheck(String skillName){
         return DiceUtil.wodRoll(skills.get(skillName), 8);
-
     }
     private String attributeCheck(String attName){
         return DiceUtil.wodRoll(attributes.get(attName));

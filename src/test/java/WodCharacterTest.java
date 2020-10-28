@@ -38,7 +38,7 @@ public class WodCharacterTest {
     }
     @Test
     public void testSkillAttCheck(){
-        String check = character.skillCheck("medicine", "intelligence");
+        String check = character.check("medicine", "intelligence");
         System.out.println();
         Assert.assertTrue(check.contains("**Total Successes:** "));
     }
