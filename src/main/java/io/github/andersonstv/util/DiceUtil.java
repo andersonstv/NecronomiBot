@@ -163,9 +163,9 @@ public class DiceUtil {
         int bonusDice = (iter.next() - 1) * 10;
         int finalTen;
         if (bonus){
-            finalTen = Math.max(tens, bonusDice);
-        } else {
             finalTen = Math.min(tens, bonusDice);
+        } else {
+            finalTen = Math.max(tens, bonusDice);
         }
         int total = finalTen + units;
         total = total == 0 ? 100 : total;
