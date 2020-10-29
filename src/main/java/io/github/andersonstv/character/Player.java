@@ -104,7 +104,7 @@ public class Player {
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
-        result.append("Your Characters: ");
+        result.append("Your Characters: ").append(FormatUtil.sep);
         for (Character c : characterMap.values()) {
             result.append(c.getId()).append(FormatUtil.sep);
         }

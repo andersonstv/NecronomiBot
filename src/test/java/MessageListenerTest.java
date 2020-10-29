@@ -19,9 +19,5 @@ public class MessageListenerTest {
         }
         return containsKeyword;
     }
-    @Test
-    public void uwunatorTest(){
-        Assert.assertEquals("nyobody", messageListener.uwunator("nobody"));
-    }
 
 }

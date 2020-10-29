@@ -20,9 +20,7 @@ package io.github.andersonstv.character;
 
 import io.github.andersonstv.util.FormatUtil;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -35,18 +33,19 @@ public class CharacterController {
     }
     public String createCharacter(String messageContent, String userId){
         String[] input = messageContent.split(" ");
+        Matcher name = Pattern.compile(FormatUtil.quotesRegex).matcher(messageContent);
         String response = "";
-        if (input.length == 3){
+        if (input.length > 2 && name.find()){
             switch (input[1].toLowerCase()){
                 case "wod":
-                    if (createWodCharacter(input[2], userId)){
+                    if (createWodCharacter(name.group(1), userId)){
                         response = "Character created successfully.";
                     } else {
                         response = "That Character already exists.";
                     }
                     break;
                 case "coc":
-                    if (createCocCharacter(input[2], userId)){
+                    if (createCocCharacter(name.group(1), userId)){
                         response = "Character created successfully.";
                     } else {
                         response = "That Character already exists.";
@@ -61,8 +60,8 @@ public class CharacterController {
     public String deleteCharacter(String messageContent, String userId){
         String[] input = messageContent.split(" ");
         String response;
-        if (input.length == 2){
-            response = removeChar(userId, input[1]);
+        if (input.length > 1){
+            response = removeChar(userId, messageContent.replace("$delete ", ""));
         } else {
             response = "Invalid Input: Try delete <name>";
         }
@@ -81,8 +80,8 @@ public class CharacterController {
         }
         return playerMap.get(userId).createCocCharacter(charName);
     }
-    public String removeChar(String userId, String charId){
-        Character deleted = playerMap.get(userId).removeChar(charId);
+    public String removeChar(String userId, String charName){
+        Character deleted = playerMap.get(userId).removeChar(charName);
         String response;
         if (deleted == null){
             response = "Character not found.";
@@ -95,9 +94,9 @@ public class CharacterController {
         Player player = playerMap.get(userId);
         return player == null ? "Player has no characters" : player.toString();
     }
-    public String printCharacter(String userId, String charName){
+    public String printCharacter(String messageContent, String userId){
         if (playerMap.containsKey(userId)){
-            return playerMap.get(userId).printChar(charName);
+            return playerMap.get(userId).printChar(messageContent.replace("$show ", ""));
         }
         return "Player not found.";
     }
@@ -111,13 +110,13 @@ public class CharacterController {
         }
         return "Player not found.";
     }
-    public String currentChar(String messageContent, String userID){
+    public String currentChar(String messageContent, String userId){
         String[] input = messageContent.split(" ");
         String response;
         if (input.length > 1){
-            response = setCurrent(userID, input[1]);
+            response = setCurrent(userId, messageContent.replace("$char ", ""));
         } else {
-            response = getCurrent(userID);
+            response = getCurrent(userId);
         }
         return response;
     }
@@ -132,7 +131,7 @@ public class CharacterController {
     }
     public String setStat(String messageContent, String userId){
         Matcher quotes = Pattern.compile(FormatUtil.quotesRegex).matcher(messageContent.toLowerCase());
-        Matcher value = Pattern.compile(FormatUtil.integerRegex).matcher(messageContent.toLowerCase());
+        Matcher value = Pattern.compile(FormatUtil.captureIntegerRegex).matcher(messageContent.toLowerCase());
         if (!playerMap.containsKey(userId)){
             return "Player not found";
         }

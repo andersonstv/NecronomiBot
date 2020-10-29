@@ -53,14 +53,14 @@ public class MessageListener extends ListenerAdapter {
                 case "$roll" -> DiceUtil.simple(messageContent);
                 case "$wod" -> DiceUtil.wod(messageContent);
                 case "$coc" -> DiceUtil.coc(messageContent);
-                case "$uwu" -> uwunator(messageContent);
+                //case "$uwu" -> uwunator(messageContent);
                 case "$create" -> charController.createCharacter(messageContent, authorId);
                 case "$delete" -> charController.deleteCharacter(messageContent, authorId);
                 case "$chars" -> charController.printCharacters(messageContent, authorId);
                 case "$char" -> charController.currentChar(messageContent, authorId);
                 case "$check" -> charController.check(messageContent, authorId);
                 case "$set" -> charController.setStat(messageContent, authorId);
-                case "$show" -> charController.printCharacter(authorId, messageContent);
+                case "$show" -> charController.printCharacter(messageContent, authorId);
                 default -> "Command not recognized";
             };
             response = FormatUtil.validateDiscordLimit(response);
