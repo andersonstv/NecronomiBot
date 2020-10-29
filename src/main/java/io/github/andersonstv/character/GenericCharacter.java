@@ -19,6 +19,7 @@
 package io.github.andersonstv.character;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
 
@@ -30,9 +31,9 @@ public abstract class GenericCharacter implements Character{
 
     public GenericCharacter(String id){
         this.id = id;
-        attributes = new HashMap<>();
-        skills = new HashMap<>();
-        descriptions = new HashMap<>();
+        attributes = new LinkedHashMap<>();
+        skills = new LinkedHashMap<>();
+        descriptions = new LinkedHashMap<>();
     }
 
     @Override
