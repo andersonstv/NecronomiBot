@@ -72,7 +72,7 @@ public class CharacterController {
     }
     public String check(String messageContent, String userId){
         String[] input = messageContent.split(" ");
-        if (!playerMap.containsKey("userId")){
+        if (!playerMap.containsKey(userId)){
             return "Player not found";
         }
         if (messageContent.length() == 3){
