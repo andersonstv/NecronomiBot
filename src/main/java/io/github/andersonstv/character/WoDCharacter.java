@@ -93,14 +93,14 @@ public class WoDCharacter extends GenericCharacter {
     public String toString() {
         String sep = FormatUtil.sep;
         StringBuilder sheet = new StringBuilder();
-        sheet.append("Name: ").append(id);
-        sheet.append("Health: ").append(hp[0]).append("[").append(hp[1]).append("]").append(sep);
-        sheet.append("Willpower: ").append(willpower[0]).append("[").append(willpower[1]).append("]").append(sep);
-        sheet.append("Attributes: ").append(sep);
+        sheet.append("Name: **").append(id).append("**").append(sep);
+        sheet.append("**Health: **").append(hp[0]).append("[").append(hp[1]).append("]").append(sep);
+        sheet.append("**Willpower: **").append(willpower[0]).append("[").append(willpower[1]).append("]").append(sep);
+        sheet.append("**Attributes: **").append(sep);
         for (Map.Entry<String, Integer> entry : attributes.entrySet()) {
             sheet.append(WordUtils.capitalize(entry.getKey())).append(": ").append(entry.getValue()).append(sep);
         }
-        sheet.append("Skills: ").append(sep);
+        sheet.append("**Skills: **").append(sep);
         for (Map.Entry<String, Integer> entry : skills.entrySet()) {
             sheet.append(WordUtils.capitalize(entry.getKey())).append(": ").append(entry.getValue()).append(sep);
         }
