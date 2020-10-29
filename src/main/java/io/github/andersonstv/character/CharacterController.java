@@ -18,8 +18,12 @@
 
 package io.github.andersonstv.character;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class CharacterController {
     Map<String, Player> playerMap;
@@ -71,14 +75,15 @@ public class CharacterController {
         }
     }
     public String check(String messageContent, String userId){
-        String[] input = messageContent.toLowerCase().split(" ");
+        Matcher m = Pattern.compile("\"([^\"]*)\"").matcher(messageContent.toLowerCase());
+        int length = m.groupCount();
         if (!playerMap.containsKey(userId)){
             return "Player not found";
         }
-        if (input.length == 3){
-            return playerMap.get(userId).check(input[1], input[2]);
-        } else if (input.length == 2){
-            return playerMap.get(userId).check((input[1]));
+        if (length == 2 && m.find()){
+            return playerMap.get(userId).check(m.group(1), m.group(2));
+        } else if (length == 1 && m.find()){
+            return playerMap.get(userId).check(m.group(1));
         }
         return "Invalid Input: Try $check <skill>";
     }
