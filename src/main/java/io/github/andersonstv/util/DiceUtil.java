@@ -25,7 +25,6 @@ import com.bernardomg.tabletop.dice.history.RollResult;
 import com.bernardomg.tabletop.dice.interpreter.DiceRoller;
 import com.bernardomg.tabletop.dice.parser.DefaultDiceParser;
 import com.bernardomg.tabletop.dice.parser.DiceParser;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Iterator;
 

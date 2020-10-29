@@ -18,6 +18,7 @@
 
 package io.github.andersonstv.character;
 
+import io.github.andersonstv.util.DiceUtil;
 import io.github.andersonstv.util.FormatUtil;
 
 import java.util.LinkedHashMap;
@@ -62,11 +63,22 @@ public class Player {
     public Character removeChar(String charId){
         return characterMap.remove(charId);
     }
-
+    public String check(String stat){
+        if (current != null){
+            current.check(stat);
+        }
+        return "No active character";
+    }
+    public String check(String stat, String secondaryStat){
+        if (current != null){
+            current.check(stat, secondaryStat);
+        }
+        return "No active character";
+    }
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
-        result.append(userID).append("Your Characters: ");
+        result.append("Your Characters: ");
         for (Character c : characterMap.values()) {
             result.append(c.getId()).append(FormatUtil.sep);
         }

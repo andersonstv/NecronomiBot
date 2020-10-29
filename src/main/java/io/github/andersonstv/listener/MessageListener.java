@@ -58,6 +58,7 @@ public class MessageListener extends ListenerAdapter {
                 case "$delete" -> deleteCharacter(messageContent, authorId);
                 case "$chars" -> printCharacters(messageContent, authorId);
                 case "$char" -> currentChar(messageContent, authorId);
+                case "$check" -> charController.check(messageContent, authorId);
                 default -> "Command not recognized";
             };
             response = FormatUtil.validateDiscordLimit(response);

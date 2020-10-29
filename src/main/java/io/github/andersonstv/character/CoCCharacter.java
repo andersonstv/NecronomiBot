@@ -43,6 +43,9 @@ public class CoCCharacter extends GenericCharacter {
             return "Skill or Attribute not found.";
         }
     }
+    public String check(String stat, String statSecondary){
+        return check(stat);
+    }
     public String skillCheck(String skillName){
         return DiceUtil.cocRoll(skills.get(skillName));
     }

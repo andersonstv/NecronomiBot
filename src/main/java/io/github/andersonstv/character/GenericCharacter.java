@@ -72,6 +72,7 @@ public abstract class GenericCharacter implements Character{
     }
 
     public abstract String check(String stat);
+    public abstract String check(String stat, String statSecondary);
 
     @Override
     public boolean equals(Object o) {
