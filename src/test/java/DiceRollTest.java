@@ -64,27 +64,27 @@ public class DiceRollTest {
     @Test
     public void testCocFailure(){
         keywords = new String[]{"**Results:** ","Critical", "Extreme", "Hard", "Regular", "umble!", "ailure!", " Success!"};
-        String result = DiceUtil.cocRoll10s(0);
+        String result = DiceUtil.cocRoll(0);
         System.out.println(result);
         Assert.assertTrue(contains(keywords, result));
     }
     @Test
     public void testCocSuccess(){
         keywords = new String[]{"**Results:** ","Critical", "Extreme", "Hard", "Regular", "Fumble!", "Failure!", " Success!"};
-        String result = DiceUtil.cocRoll10s(100);
+        String result = DiceUtil.cocRoll(100);
         System.out.println(result);
         Assert.assertTrue(contains(keywords, result));
     }
     @Test
     public void testCocExtremeSuccess(){
         keywords = new String[]{"**Results:** ","Critical", "Extreme", "Hard", "Regular", "Fumble!", "Failure!", " Success!"};
-        String result = DiceUtil.cocRoll10s(500);
+        String result = DiceUtil.cocRoll(500);
         Assert.assertTrue(contains(keywords, result));
     }
     @Test
     public void testHardSuccess(){
         keywords = new String[]{"**Results:** ","Critical", "Extreme", "Hard", "Regular", "Fumble!", "Failure!", " Success!"};
-        String result = DiceUtil.cocRoll10s(200);
+        String result = DiceUtil.cocRoll(200);
         System.out.println(result);
         Assert.assertTrue(contains(keywords, result));
     }

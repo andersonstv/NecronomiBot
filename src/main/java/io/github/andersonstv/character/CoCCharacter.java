@@ -44,10 +44,10 @@ public class CoCCharacter extends GenericCharacter {
         }
     }
     public String skillCheck(String skillName){
-        return DiceUtil.cocRoll10s(skills.get(skillName));
+        return DiceUtil.cocRoll(skills.get(skillName));
     }
 
     public String attributeCheck(String attName){
-        return DiceUtil.cocRoll10s(attributes.get(attName));
+        return DiceUtil.cocRoll(attributes.get(attName));
     }
 }

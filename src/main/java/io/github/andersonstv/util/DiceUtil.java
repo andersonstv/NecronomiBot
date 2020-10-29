@@ -25,6 +25,7 @@ import com.bernardomg.tabletop.dice.history.RollResult;
 import com.bernardomg.tabletop.dice.interpreter.DiceRoller;
 import com.bernardomg.tabletop.dice.parser.DefaultDiceParser;
 import com.bernardomg.tabletop.dice.parser.DiceParser;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Iterator;
 
@@ -125,7 +126,14 @@ public class DiceUtil {
 
         if (inputArray.length == 2 && FormatUtil.isInteger(inputArray[1])){
             int challenge = Integer.parseInt(inputArray[1]);
-            result = cocRoll10s(challenge);
+            result = cocRoll(challenge);
+        } else if (inputArray.length == 3 && FormatUtil.isInteger(inputArray[1])){
+            int challenge = Integer.parseInt(inputArray[1]);
+            result = switch (inputArray[2]) {
+                case "+" -> cocRoll(challenge, true);
+                case "-" -> cocRoll(challenge, false);
+                default -> cocRoll(challenge);
+            };
         } else {
             result = "Invalid Input: Try $coc <skill level>." +
                     "Ex: $cod 45 ";
@@ -133,7 +141,7 @@ public class DiceUtil {
         return result;
     }
 
-    static public String cocRoll10s(int challenge){
+    static public String cocRoll(int challenge){
         int fumble = challenge < 50 ? 96 : 100;
         RollResult result = parseAndRoll("2d10").iterator().next();
         Iterator<Integer> iter = result.getAllRolls().iterator();
@@ -144,6 +152,30 @@ public class DiceUtil {
         StringBuilder response = new StringBuilder("**Results:** ");
         response.append(total).append(" [").append(tens).append("] [").append(units).append("]").append(FormatUtil.sep);
 
+        return cocString(challenge, fumble, total, response);
+    }
+    static public String cocRoll(int challenge, boolean bonus){
+        int fumble = challenge < 50 ? 96 : 100;
+        RollResult result = parseAndRoll("3d10").iterator().next();
+        Iterator<Integer> iter = result.getAllRolls().iterator();
+        int tens = (iter.next() - 1) * 10;
+        int units = iter.next() - 1;
+        int bonusDice = (iter.next() - 1) * 10;
+        int finalTen;
+        if (bonus){
+            finalTen = Math.max(tens, bonusDice);
+        } else {
+            finalTen = Math.min(tens, bonusDice);
+        }
+        int total = finalTen + units;
+        total = total == 0 ? 100 : total;
+        StringBuilder response = new StringBuilder("**Results:** ");
+        response.append(total).append(" [").append(tens).append("] [").append(units).append("]").append(FormatUtil.sep);
+        response.append(" [").append(bonusDice).append("]").append(FormatUtil.sep);
+        return cocString(challenge, fumble, total, response);
+    }
+
+    private static String cocString(int challenge, int fumble, int total, StringBuilder response) {
         if(total <= challenge){
             if( total == 1){
                 response.append("Critical");
