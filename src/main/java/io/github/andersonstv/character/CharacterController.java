@@ -18,6 +18,8 @@
 
 package io.github.andersonstv.character;
 
+import io.github.andersonstv.util.FormatUtil;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,6 +32,41 @@ public class CharacterController {
 
     public CharacterController() {
         this.playerMap = new HashMap<>();
+    }
+    public String createCharacter(String messageContent, String userId){
+        String[] input = messageContent.split(" ");
+        String response = "";
+        if (input.length == 3){
+            switch (input[1].toLowerCase()){
+                case "wod":
+                    if (createWodCharacter(input[2], userId)){
+                        response = "Character created successfully.";
+                    } else {
+                        response = "That Character already exists.";
+                    }
+                    break;
+                case "coc":
+                    if (createCocCharacter(input[2], userId)){
+                        response = "Character created successfully.";
+                    } else {
+                        response = "That Character already exists.";
+                    }
+                    break;
+            }
+        } else {
+            response = "Invalid Input: Try $create <wod/coc> <name>";
+        }
+        return response;
+    }
+    public String deleteCharacter(String messageContent, String userId){
+        String[] input = messageContent.split(" ");
+        String response;
+        if (input.length == 2){
+            response = removeChar(userId, input[1]);
+        } else {
+            response = "Invalid Input: Try delete <name>";
+        }
+        return response;
     }
 
     public boolean createWodCharacter(String charName, String userId){
@@ -58,12 +95,31 @@ public class CharacterController {
         Player player = playerMap.get(userId);
         return player == null ? "Player has no characters" : player.toString();
     }
+    public String printCharacter(String userId, String charName){
+        if (playerMap.containsKey(userId)){
+            return playerMap.get(userId).printChar(charName);
+        }
+        return "Player not found.";
+    }
+    public String printCharacters(String messageContent, String userId){
+        return printChars(userId);
+    }
     public String getCurrent(String userId){
         if (playerMap.containsKey(userId)){
             Player player = playerMap.get(userId);
             return player.getCurrent() == null ? "No active character." : player.getCurrent().getId();
         }
         return "Player not found.";
+    }
+    public String currentChar(String messageContent, String userID){
+        String[] input = messageContent.split(" ");
+        String response;
+        if (input.length > 1){
+            response = setCurrent(userID, input[1]);
+        } else {
+            response = getCurrent(userID);
+        }
+        return response;
     }
     public String setCurrent(String userId, String charName){
         if (playerMap.containsKey(userId)){
@@ -74,8 +130,21 @@ public class CharacterController {
             return "Player not found";
         }
     }
+    public String setStat(String messageContent, String userId){
+        Matcher quotes = Pattern.compile(FormatUtil.quotesRegex).matcher(messageContent.toLowerCase());
+        Matcher value = Pattern.compile(FormatUtil.integerRegex).matcher(messageContent.toLowerCase());
+        if (!playerMap.containsKey(userId)){
+            return "Player not found";
+        }
+        if (quotes.find() && value.find()){
+            boolean op = playerMap.get(userId).setStat(quotes.group(1), Integer.parseInt(value.group(1)));
+            return op ? "Operation Successful" : "No active character";
+        } else {
+            return "Invalid Input: Try : $set \"<skill>\" <value";
+        }
+    }
     public String check(String messageContent, String userId){
-        Matcher m = Pattern.compile("\"([^\"]*)\"").matcher(messageContent.toLowerCase());
+        Matcher m = Pattern.compile(FormatUtil.quotesRegex).matcher(messageContent.toLowerCase());
         int length = m.groupCount();
         if (!playerMap.containsKey(userId)){
             return "Player not found";

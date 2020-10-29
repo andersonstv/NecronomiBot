@@ -52,14 +52,28 @@ public abstract class GenericCharacter implements Character{
         return descriptions;
     }
 
-    public void addSkill(String skillName, int value){
-        skills.put(skillName, value);
+    public void setStat(String statName, int value){
+        if (attributes.containsKey(statName)){
+            attributes.put(statName, value);
+        } else{
+            skills.put(statName, value);
+        }
     }
-    public Integer getSkill(String skillName){
-        return skills.get(skillName);
+    public void removeStat(String statName){
+        if (attributes.containsKey(statName)){
+            attributes.remove(statName);
+        }
+        if (skills.containsKey(statName)){
+            skills.remove(statName);
+        }
     }
-    public void addAttribute(String attName, int value){
-        skills.put(attName, value);
+    public String getStat(String statName){
+        if (attributes.containsKey(statName)){
+            return statName + attributes.get(statName);
+        } else if (skills.containsKey(statName)){
+            return statName + skills.get(statName);
+        }
+        return "Not found.";
     }
     public Integer getAttribute(String attName){
         return attributes.get(attName);

@@ -54,11 +54,13 @@ public class MessageListener extends ListenerAdapter {
                 case "$wod" -> DiceUtil.wod(messageContent);
                 case "$coc" -> DiceUtil.coc(messageContent);
                 case "$uwu" -> uwunator(messageContent);
-                case "$create" -> createCharacter(messageContent, authorId);
-                case "$delete" -> deleteCharacter(messageContent, authorId);
-                case "$chars" -> printCharacters(messageContent, authorId);
-                case "$char" -> currentChar(messageContent, authorId);
+                case "$create" -> charController.createCharacter(messageContent, authorId);
+                case "$delete" -> charController.deleteCharacter(messageContent, authorId);
+                case "$chars" -> charController.printCharacters(messageContent, authorId);
+                case "$char" -> charController.currentChar(messageContent, authorId);
                 case "$check" -> charController.check(messageContent, authorId);
+                case "$set" -> charController.setStat(messageContent, authorId);
+                case "$show" -> charController.printCharacter(authorId, messageContent);
                 default -> "Command not recognized";
             };
             response = FormatUtil.validateDiscordLimit(response);
@@ -68,54 +70,6 @@ public class MessageListener extends ListenerAdapter {
     public String uwunator(String messageContent){
         String response = messageContent.replace("$uwu", "").replaceAll("[rl]", "w");
         return response.replaceAll("n[aeiou]", "ny$1");
-    }
-    public String createCharacter(String messageContent, String userId){
-        String[] input = messageContent.split(" ");
-        String response = "";
-        if (input.length == 3){
-            switch (input[1].toLowerCase()){
-                case "wod":
-                    if (charController.createWodCharacter(input[2], userId)){
-                        response = "Character created successfully.";
-                    } else {
-                        response = "That Character already exists.";
-                    }
-                    break;
-                case "coc":
-                    if (charController.createCocCharacter(input[2], userId)){
-                        response = "Character created successfully.";
-                    } else {
-                        response = "That Character already exists.";
-                    }
-                    break;
-            }
-        } else {
-            response = "Invalid Input: Try $create <wod/coc> <name>";
-        }
-        return response;
-    }
-    public String deleteCharacter(String messageContent, String userId){
-        String[] input = messageContent.split(" ");
-        String response;
-        if (input.length == 2){
-            response = charController.removeChar(userId, input[1]);
-        } else {
-            response = "Invalid Input: Try delete <name>";
-        }
-        return response;
-    }
-    public String printCharacters(String messageContent, String userId){
-        return charController.printChars(userId);
-    }
-    public String currentChar(String messageContent, String userID){
-        String[] input = messageContent.split(" ");
-        String response;
-        if (input.length == 2){
-            response = charController.setCurrent(userID, input[1]);
-        } else {
-            response = charController.getCurrent(userID);
-        }
-        return response;
     }
 
 }

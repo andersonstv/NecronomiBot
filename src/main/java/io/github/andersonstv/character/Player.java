@@ -87,6 +87,20 @@ public class Player {
         }
         return "No active character";
     }
+    public String printChar(String charName){
+        if (characterMap.containsKey(charName)){
+            return characterMap.get(charName).toString();
+        }
+        return "Character not found";
+    }
+    public boolean setStat(String statName, int value){
+        if (current != null){
+            current.setStat(statName, value);
+            return true;
+        }
+        return false;
+    }
+
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();

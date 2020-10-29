@@ -73,4 +73,5 @@ public class WoDCharacter extends GenericCharacter {
     private String attributeCheck(String attName){
         return DiceUtil.wodRoll(attributes.get(attName));
     }
+
 }
