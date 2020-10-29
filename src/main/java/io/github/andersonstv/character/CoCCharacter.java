@@ -69,7 +69,7 @@ public class CoCCharacter extends GenericCharacter {
         }
         sheet.append("**Skills: **").append(sep);
         for (Map.Entry<String, Integer> entry : skills.entrySet()) {
-            sheet.append(WordUtils.capitalize(entry.getKey())).append(": ").append(entry.getValue()).append(sep);
+            sheet.append(WordUtils.capitalizeFully(entry.getKey())).append(": ").append(entry.getValue()).append(sep);
         }
         return sheet.toString();
     }
