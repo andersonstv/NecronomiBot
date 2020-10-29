@@ -38,6 +38,18 @@ public class Player {
         return current;
     }
 
+    public Map<String, Character> getCharacterMap() {
+        return characterMap;
+    }
+
+    public void setCharacterMap(Map<String, Character> characterMap) {
+        this.characterMap = characterMap;
+    }
+
+    public void setCurrent(Character current) {
+        this.current = current;
+    }
+
     public void setCurrent(String charName) {
         this.current = characterMap.get(charName);
     }
@@ -65,13 +77,13 @@ public class Player {
     }
     public String check(String stat){
         if (current != null){
-            current.check(stat);
+            return current.check(stat);
         }
         return "No active character";
     }
     public String check(String stat, String secondaryStat){
         if (current != null){
-            current.check(stat, secondaryStat);
+            return current.check(stat, secondaryStat);
         }
         return "No active character";
     }

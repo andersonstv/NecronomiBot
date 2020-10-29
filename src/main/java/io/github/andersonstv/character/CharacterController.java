@@ -71,13 +71,13 @@ public class CharacterController {
         }
     }
     public String check(String messageContent, String userId){
-        String[] input = messageContent.split(" ");
+        String[] input = messageContent.toLowerCase().split(" ");
         if (!playerMap.containsKey(userId)){
             return "Player not found";
         }
-        if (messageContent.length() == 3){
+        if (input.length == 3){
             return playerMap.get(userId).check(input[1], input[2]);
-        } else if (messageContent.length() == 2){
+        } else if (input.length == 2){
             return playerMap.get(userId).check((input[1]));
         }
         return "Invalid Input: Try $check <skill>";
