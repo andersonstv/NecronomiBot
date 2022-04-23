@@ -43,12 +43,8 @@ public abstract class GenericCharacter implements Character{
         }
     }
     public void removeStat(String statName){
-        if (attributes.containsKey(statName)){
-            attributes.remove(statName);
-        }
-        if (skills.containsKey(statName)){
-            skills.remove(statName);
-        }
+        attributes.remove(statName);
+        skills.remove(statName);
     }
     public String getStat(String statName){
         if (attributes.containsKey(statName)){
